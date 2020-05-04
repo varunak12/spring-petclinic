@@ -23,6 +23,13 @@ node {
         stage('Publish') {
             sh "docker login -u 900df6e1-33f6-482a-adc1-26aaae82ca66 -p f9ece8c4-1318-41d7-93f2-0748ae9f67ef azacrtest.azurecr.io"
             container.push()
-        }    
+        }  
+        
+        stage('deploy image') {
+         sh '''
+       	   az aks get-credentials --resource-group aksrg --name azakstest
+            kubectl apply -f deployments.yaml
+        '''     
+        }
 
 }
